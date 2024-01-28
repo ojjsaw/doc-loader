@@ -1,3 +1,7 @@
 langchain
 beautifulsoup4
 tqdm
+sentence-transformers
+huggingface_hub[cli]
+chromadb
+pysqlite3-binary

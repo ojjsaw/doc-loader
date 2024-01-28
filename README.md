@@ -12,9 +12,7 @@
 * https://docs.openvino.ai/2023.3/openvino_docs_performance_benchmarks.html#
 
 Advanced:
-* https://docs.openvino.ai/2023.3/notebooks/126-tensorflow-hub-with-output.html
 * https://docs.openvino.ai/2023.3/openvino_sample_hello_classification.html
-* https://docs.openvino.ai/2023.3/openvino_docs_install_guides_overview.html?VERSION=v_2023_3_0&OP_SYSTEM=WINDOWS&DISTRIBUTION=ARCHIVE
 
 
 ```bash
@@ -25,4 +23,25 @@ wget https://docs.openvino.ai/2023.3/openvino_docs_install_guides_installing_ope
 metadata={'source': 'https://docs.openvino.ai/2023.3/openvino_docs_install_guides_installing_openvino_pip.html', 'title': 'Install Intel® Distribution of OpenVINO™ Toolkit from PyPI Repository — OpenVINO™  documentation', 'description': 'Learn how to install OpenVINO™ Runtime on Windows, Linux, and macOS operating systems, using a PyPi package.', 'language': 'en'})]
 
 <meta name="docsearch:language" content="en">
+```
+
+```bash
+huggingface-cli login
+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
+
+huggingface-cli delete-cache
+```
+
+```bash
+vi /home/codespace/.python/current/lib/python3.10/site-packages/chromadb/__init__.py 
+
+# add below to top of file
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+```
+
+```bash
+6.8MB
+4.5MB
 ```

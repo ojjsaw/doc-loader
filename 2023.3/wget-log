@@ -1,0 +1,11 @@
+--2024-01-28 19:54:35--  https://docs.openvino.ai/2023.3/openvino_docs_install_guides_overview.html?VERSION=v_2023_3_0
+Resolving docs.openvino.ai (docs.openvino.ai)... 72.247.113.130, 2600:1405:8400:185::efb, 2600:1405:8400:18d::efb
+Connecting to docs.openvino.ai (docs.openvino.ai)|72.247.113.130|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘openvino_docs_install_guides_overview.html?VERSION=v_2023_3_0’
+
+                  openvino_docs_ins     [<=>                                                                ]       0  --.-KB/s               openvino_docs_install_guides_overvi     [ <=>                                                               ] 681.43K  --.-KB/s    in 0.04s   
+
+2024-01-28 19:54:35 (15.2 MB/s) - ‘openvino_docs_install_guides_overview.html?VERSION=v_2023_3_0’ saved [697782]
+
