@@ -6,3 +6,4 @@ huggingface_hub[cli]
 chromadb
 pysqlite3-binary
 optimum[openvino,nncf]
+spacy

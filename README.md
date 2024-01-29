@@ -42,6 +42,15 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 ```
 
 ```bash
-6.8MB
-4.5MB
+python -m spacy download en_core_web_sm
+python -m spacy download en_core_web_trf
+```
+```bash
+python process_docs_multicore.py --emodel 'sentence-transformers/all-mpnet-base-v2'
+python rag_cli_infer.py --storedir 'VectorStores/20240129_013709' --modelid 'helenai/gpt2-ov'
+```
+
+```bash
+wget https://docs.openvino.ai/archives/2023.3.zip
+unzip 2023.2.zip
 ```
