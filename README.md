@@ -53,4 +53,6 @@ python rag_cli_infer.py --storedir 'VectorStores/20240129_013709' --modelid 'hel
 ```bash
 wget https://docs.openvino.ai/archives/2023.3.zip
 unzip 2023.2.zip
+python -m venv openvino_env
+source openvino_env/bin/activate
 ```
