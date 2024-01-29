@@ -115,7 +115,8 @@ def indexing_split(docs, args):
         text_splitter = SpacyTextSplitter(
             chunk_size=args.csize, 
             chunk_overlap=args.coverlap,
-            pipeline=args.splitter
+            pipeline=args.splitter,
+            max_length=10000000
         )
         
     return text_splitter.split_documents(docs)
