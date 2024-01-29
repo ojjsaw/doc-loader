@@ -1,4 +1,5 @@
 import datetime
+import json
 import os
 import glob
 from pprint import pprint
@@ -108,7 +109,7 @@ def indexing_split(docs, args):
 def indexing_embeddings(args):
     # trust_remote_code error workaround
     model = AutoModel.from_pretrained(args.emodel, trust_remote_code=True)
-    ############ TODO: Experiment Other Splitters
+    ############ TODO: Experiment Other embeddings
     embeddings = HuggingFaceEmbeddings(
         model_name = args.emodel,
         model_kwargs = {'device':'cpu'},
@@ -117,6 +118,7 @@ def indexing_embeddings(args):
     return embeddings
 
 def indexing_embedding_vectorstore(split_docs, embeddings, args):
+    ############ TODO: Experiment Other vectorstores
     start_time = time.time()
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     dir_name = f"VectorStores/{timestamp}"
@@ -160,9 +162,8 @@ def main():
     dir_path = indexing_embedding_vectorstore(split_docs, embeddings, args)
     logging.info(f"Completed vector store with embeddings.")
 
-    with open(dir_path + "/config.txt", "w") as file:
-        for arg in vars(args):
-            file.write(f"{arg}: {getattr(args, arg)}\n")
+    with open(dir_path + "/process_docs_config.json", "w") as file:
+        json.dump(vars(args), file)
     # Next steps: Generate embeddings and store them in the vector database
 
 if __name__ == '__main__':

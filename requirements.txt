@@ -5,3 +5,4 @@ sentence-transformers
 huggingface_hub[cli]
 chromadb
 pysqlite3-binary
+optimum[openvino,nncf]
