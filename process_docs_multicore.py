@@ -39,12 +39,10 @@ def extract_metadata(soup, file_path, dir_path):
     title_tag = soup.title
     if title_tag:
         metadata['title'] = title_tag.get_text()
-    # extract description
-    description_tag = soup.find('meta', attrs={'name': 'description'})
-    if description_tag and description_tag.has_attr('content'):
-        metadata['description'] = description_tag['content']
-    else:
-        metadata['description'] = metadata['title']
+        # extract description
+        description_tag = soup.find('meta', attrs={'name': 'description'})
+        if description_tag and description_tag.has_attr('content'):
+            metadata['description'] = description_tag['content']
         
     # extract source
     # metadata['source'] = "https://docs.openvino.ai/" + file_path
