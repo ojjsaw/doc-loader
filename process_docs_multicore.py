@@ -170,7 +170,7 @@ def main():
 
     logging.info(f"Available CPU Cores: {cpu_count()}")
     docs = indexing_load(args)
-    return
+    
     #logging.debug(f"Example doc: {docs[0]}")
     logging.info(f"Docs before split: {len(docs)}")
     split_docs = indexing_split(docs, args)
