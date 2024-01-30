@@ -63,7 +63,8 @@ def main():
         model_id=args.modelid, 
         device='CPU', 
         ov_config={"PERFORMANCE_HINT": "LATENCY", "CACHE_DIR": cache_dir},
-        cache_dir=cache_dir
+        cache_dir=cache_dir,
+        use_cache=False
         )
     pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=args.maxtokens)
     llm = HuggingFacePipeline(pipeline=pipe)
