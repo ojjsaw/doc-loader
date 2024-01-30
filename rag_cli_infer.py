@@ -41,20 +41,6 @@ def load_embeddings(embeddings_model):
     )
     return embeddings
 
-def load_vector_retriever(storedir, embeddings):
-    vector_store = Chroma(
-        persist_directory=storedir, 
-        embedding_function=embeddings,
-        client_settings=Settings(
-            anonymized_telemetry=False, 
-            is_persistent=True,
-            persist_directory=storedir)
-        )
-    ############ TODO: Experiment with retriever configs
-    retriever = vector_store.as_retriever()
-    #retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 6})
-    return retriever, vector_store
-
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
    
@@ -86,19 +72,20 @@ def main():
     logging.info(config_dict)
 
     embeddings = load_embeddings(config_dict['emodel'])
-    retriever, _ = load_vector_retriever(args.storedir, embeddings)
+    vector_store = Chroma(persist_directory=args.storedir, embedding_function=embeddings)
+    retriever = vector_store.as_retriever()
+    #retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 6})
 
-    tokenizer = AutoTokenizer.from_pretrained(args.modelid)
+    tokenizer = AutoTokenizer.from_pretrained('Intel/neural-chat-7b-v3-3')
     model = OVModelForCausalLM.from_pretrained(
         model_id=args.modelid, 
         device='CPU', 
         ov_config={"PERFORMANCE_HINT": "LATENCY"},
         trust_remote_code=True,
-        #load_in_8bit=True
+        load_in_8bit=True
         )
     pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=args.maxtokens)
     llm = HuggingFacePipeline(pipeline=pipe)
-
     qa_chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
 
     while True:
