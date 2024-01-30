@@ -63,6 +63,7 @@ optimum-cli export openvino --model Intel/neural-chat-7b-v3-3 ov_model
 du -h --max-depth=1
 huggingface-cli scan-cache
 
+ optimum-cli export openvino -m 'Intel/neural-chat-7b-v3-1' --trust-remote-code --weight-format int4_sym_g64 --task text-generation INT4
 
 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
 ```

@@ -31,14 +31,7 @@ Helpful Answer:"""
 custom_rag_prompt = PromptTemplate.from_template(template)
 
 def load_embeddings(embeddings_model):
-    # trust_remote_code error workaround
-    model = AutoModel.from_pretrained(embeddings_model, trust_remote_code=True)
-    ############ TODO: Experiment Other embeddings
-    embeddings = HuggingFaceEmbeddings(
-        model_name = embeddings_model,
-        model_kwargs = {'device':'cpu'},
-        encode_kwargs = {'normalize_embeddings': True}
-    )
+
     return embeddings
 
 def main():
@@ -47,7 +40,7 @@ def main():
 
     parser = argparse.ArgumentParser(description='Use rag lanchain in cli mode.')
     parser.add_argument('--storedir', default='/root/ojas-workdir/ov-llm-rag/openvino-llm-chatbot-rag/.vectorstore_1000_100', type=str, help='Path to the vectorstore dir (default: /root/ojas-workdir/ov-llm-rag/openvino-llm-chatbot-rag/.vectorstore_1000_100)')
-    parser.add_argument('--modelid', default='/root/ojas-workdir/doc-loader/ov_model', type=str, help='LLM model (default: /root/ojas-workdir/doc-loader/ov_model)')
+    parser.add_argument('--modelid', default='/root/ojas-workdir/doc-loader/INT4', type=str, help='LLM model (default: /root/ojas-workdir/doc-loader/ov_model)')
     parser.add_argument('--maxtokens', default=140, type=int, help='LLM model (default: 140)')
 
     args = parser.parse_args()
@@ -55,12 +48,20 @@ def main():
     for arg in vars(args):
         logging.info(f"{arg}: {getattr(args, arg)}")
 
-    embeddings = load_embeddings("jinaai/jina-embeddings-v2-base-en")
+    embeddings_model = 'jinaai/jina-embeddings-v2-base-en'
+    # trust_remote_code error workaround
+    model = AutoModel.from_pretrained(embeddings_model, trust_remote_code=True)
+    ############ TODO: Experiment Other embeddings
+    embeddings = HuggingFaceEmbeddings(
+        model_name = embeddings_model,
+        model_kwargs = {'device':'cpu'},
+        encode_kwargs = {'normalize_embeddings': True}
+    )
     vector_store = Chroma(persist_directory=args.storedir, embedding_function=embeddings)
     retriever = vector_store.as_retriever()
     #retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 6})
 
-    tokenizer = AutoTokenizer.from_pretrained('Intel/neural-chat-7b-v3-3')
+    tokenizer = AutoTokenizer.from_pretrained('Intel/neural-chat-7b-v3-1')
     model = OVModelForCausalLM.from_pretrained(
         model_id=args.modelid, 
         device='CPU', 
