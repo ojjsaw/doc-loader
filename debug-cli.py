@@ -30,10 +30,6 @@ Question: {question}
 Helpful Answer:"""
 custom_rag_prompt = PromptTemplate.from_template(template)
 
-def load_embeddings(embeddings_model):
-
-    return embeddings
-
 def main():
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s', level=logging.INFO)
     warnings.filterwarnings("ignore")
@@ -43,6 +39,7 @@ def main():
     parser.add_argument('--modelid', default='/root/ojas-workdir/doc-loader/INT4', type=str, help='LLM model (default: /root/ojas-workdir/doc-loader/ov_model)')
     parser.add_argument('--maxtokens', default=140, type=int, help='LLM model (default: 140)')
 
+    cache_dir = './cache'
     args = parser.parse_args()
 
     for arg in vars(args):
@@ -65,7 +62,8 @@ def main():
     model = OVModelForCausalLM.from_pretrained(
         model_id=args.modelid, 
         device='CPU', 
-        ov_config={"PERFORMANCE_HINT": "LATENCY"}
+        ov_config={"PERFORMANCE_HINT": "LATENCY", "CACHE_DIR": cache_dir},
+        cache_dir=cache_dir
         )
     pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=args.maxtokens)
     llm = HuggingFacePipeline(pipeline=pipe)
