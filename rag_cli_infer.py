@@ -45,7 +45,11 @@ def load_vector_retriever(storedir, embeddings):
     vector_store = Chroma(
         persist_directory=storedir, 
         embedding_function=embeddings,
-        client_settings=Settings(anonymized_telemetry=False))
+        client_settings=Settings(
+            anonymized_telemetry=False, 
+            is_persistent=True,
+            persist_directory=storedir)
+        )
     ############ TODO: Experiment with retriever configs
     retriever = vector_store.as_retriever()
     #retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 6})

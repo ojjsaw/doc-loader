@@ -56,3 +56,10 @@ unzip 2023.2.zip
 python -m venv openvino_env
 source openvino_env/bin/activate
 ```
+```bash
+python rag_cli_infer.py --storedir VectorStores/20240129_171328 --modelid ov_model
+
+optimum-cli export openvino --model Intel/neural-chat-7b-v3-3 ov_model
+du -h --max-depth=1
+huggingface-cli scan-cache
+```
