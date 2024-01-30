@@ -141,7 +141,10 @@ def indexing_embedding_vectorstore(split_docs, embeddings, args):
         documents=split_docs, 
         embedding=embeddings, 
         persist_directory=dir_name,
-        client_settings=Settings(anonymized_telemetry=False)
+        client_settings=Settings(
+            anonymized_telemetry=False, 
+            is_persistent=True,
+            persist_directory=dir_name)
         )
     end_time = time.time()
     duration = end_time - start_time
@@ -183,7 +186,6 @@ def main():
 
     with open(dir_path + "/process_docs_config.json", "w") as file:
         json.dump(vars(args), file)
-    # Next steps: Generate embeddings and store them in the vector database
 
 if __name__ == '__main__':
     main()
