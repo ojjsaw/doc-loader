@@ -62,4 +62,7 @@ python rag_cli_infer.py --storedir VectorStores/20240129_171328 --modelid ov_mod
 optimum-cli export openvino --model Intel/neural-chat-7b-v3-3 ov_model
 du -h --max-depth=1
 huggingface-cli scan-cache
+
+
+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
 ```
