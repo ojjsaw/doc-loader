@@ -17,6 +17,7 @@ from transformers import AutoModel
 import time
 import warnings
 from chromadb.config import Settings
+os.environ['HF_TOKEN'] = "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"
 
 def format_duration(duration):
     """Format the duration into a human-readable string (seconds, minutes, or hours)."""
@@ -127,7 +128,7 @@ def indexing_embeddings(args):
     ############ TODO: Experiment Other embeddings
     embeddings = HuggingFaceEmbeddings(
         model_name = args.emodel,
-        model_kwargs = {'device':'cpu'},
+        model_kwargs = {'device':'cpu', 'trust_remote_code':True},
         encode_kwargs = {'normalize_embeddings': True}
     )
     return embeddings
