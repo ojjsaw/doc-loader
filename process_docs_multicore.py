@@ -162,7 +162,7 @@ def main():
     parser.add_argument('--csize', default=1000, type=int, help='chunk size for splitting (default: 1000)')
     parser.add_argument('--coverlap', default=100, type=int, help='chunk overlap for splitting (default: 100)')
     parser.add_argument('--emodel', default='jinaai/jina-embeddings-v2-base-en', type=str, help='embeddings model string (default: jinaai/jina-embeddings-v2-base-en)')
-    parser.add_argument('--splitter', default='en_core_web_trf', type=str, help='splitter types: [spaCy] en_core_web_sm, en_core_web_trf or RecursiveCharacterTextSplitter (default: en_core_web_trf)')
+    parser.add_argument('--splitter', default='en_core_web_sm', type=str, help='splitter types: [spaCy] en_core_web_sm, en_core_web_trf or RecursiveCharacterTextSplitter (default: en_core_web_sm)')
 
     args = parser.parse_args()
 
