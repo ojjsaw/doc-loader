@@ -36,7 +36,7 @@ def main():
 
     parser = argparse.ArgumentParser(description='Use rag lanchain in cli mode.')
     parser.add_argument('--storedir', default='/root/ojas-workdir/ov-llm-rag/openvino-llm-chatbot-rag/.vectorstore_1000_100', type=str, help='Path to the vectorstore dir (default: /root/ojas-workdir/ov-llm-rag/openvino-llm-chatbot-rag/.vectorstore_1000_100)')
-    parser.add_argument('--modelid', default='/root/ojas-workdir/doc-loader/INT4', type=str, help='LLM model (default: /root/ojas-workdir/doc-loader/ov_model)')
+    parser.add_argument('--modelid', default='/root/ojas-workdir/ov-llm-rag/openvino-llm-chatbot-rag/neural-chat-7b-v3-1/INT4', type=str, help='LLM model (default: /root/ojas-workdir/ov-llm-rag/openvino-llm-chatbot-rag/neural-chat-7b-v3-1/INT4)')
     parser.add_argument('--maxtokens', default=140, type=int, help='LLM model (default: 140)')
 
     cache_dir = './cache'
