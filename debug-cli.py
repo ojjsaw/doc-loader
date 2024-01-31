@@ -39,7 +39,7 @@ def main():
     parser.add_argument('--modelid', default='/root/ojas-workdir/ov-llm-rag/openvino-llm-chatbot-rag/neural-chat-7b-v3-1/INT4', type=str, help='LLM model (default: /root/ojas-workdir/ov-llm-rag/openvino-llm-chatbot-rag/neural-chat-7b-v3-1/INT4)')
     parser.add_argument('--maxtokens', default=140, type=int, help='LLM model (default: 140)')
 
-    cache_dir = './cache'
+    cache_dir = '/root/ojas-workdir/ov-llm-rag/openvino-llm-chatbot-rag/cache'
     args = parser.parse_args()
 
     for arg in vars(args):
@@ -58,13 +58,12 @@ def main():
     retriever = vector_store.as_retriever()
     #retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 6})
 
-    tokenizer = AutoTokenizer.from_pretrained('Intel/neural-chat-7b-v3-1')
+    tokenizer = AutoTokenizer.from_pretrained('Intel/neural-chat-7b-v3-1', cache_dir=cache_dir)
     model = OVModelForCausalLM.from_pretrained(
         model_id=args.modelid, 
         device='CPU', 
-        ov_config={"PERFORMANCE_HINT": "LATENCY", "CACHE_DIR":""},
-        cache_dir="",
-        use_cache=False
+        ov_config={"PERFORMANCE_HINT": "LATENCY", "CACHE_DIR":cache_dir},
+        cache_dir=cache_dir
         )
     pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=args.maxtokens)
     llm = HuggingFacePipeline(pipeline=pipe)
