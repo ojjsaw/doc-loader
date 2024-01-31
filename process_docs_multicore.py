@@ -133,20 +133,30 @@ def indexing_embeddings(args):
     )
     return embeddings
 
-def indexing_embedding_vectorstore(split_docs, embeddings, args):
+def indexing_embedding_vectorstore(split_docs, embeddings):
     ############ TODO: Experiment Other vectorstores
     start_time = time.time()
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     dir_name = f"VectorStores/{timestamp}"
-    Chroma.from_documents(
-        documents=split_docs, 
-        embedding=embeddings, 
-        persist_directory=dir_name,
-        client_settings=Settings(
-            anonymized_telemetry=False, 
-            is_persistent=True,
-            persist_directory=dir_name)
-        )
+    
+    # Chroma.from_documents(
+    #     documents=split_docs, 
+    #     embedding=embeddings, 
+    #     persist_directory=dir_name,
+    #     client_settings=Settings(
+    #         anonymized_telemetry=False, 
+    #         is_persistent=True,
+    #         persist_directory=dir_name)
+    #     )
+    
+    vector_store = Chroma(
+        persist_directory=dir_name, 
+        embedding_function=embeddings
+    )
+
+    for doc in tqdm(split_docs):
+        vector_store.add_documents([doc])
+
     end_time = time.time()
     duration = end_time - start_time
     logging.info(f"Chroma store duration: {format_duration(duration)}")
@@ -162,7 +172,7 @@ def main():
     parser.add_argument('--csize', default=1000, type=int, help='chunk size for splitting (default: 1000)')
     parser.add_argument('--coverlap', default=100, type=int, help='chunk overlap for splitting (default: 100)')
     parser.add_argument('--emodel', default='jinaai/jina-embeddings-v2-base-en', type=str, help='embeddings model string (default: jinaai/jina-embeddings-v2-base-en)')
-    parser.add_argument('--splitter', default='en_core_web_sm', type=str, help='splitter types: [spaCy] en_core_web_sm, en_core_web_trf or RecursiveCharacterTextSplitter (default: en_core_web_sm)')
+    parser.add_argument('--splitter', default='en_core_web_trf', type=str, help='splitter types: [spaCy] en_core_web_sm, en_core_web_trf or RecursiveCharacterTextSplitter (default: en_core_web_trf)')
 
     args = parser.parse_args()
 
@@ -182,7 +192,7 @@ def main():
     logging.info(f"Docs after split: {len(split_docs)}")
     embeddings = indexing_embeddings(args)
     logging.info(f"Loaded embeddings: {args.emodel}")
-    dir_path = indexing_embedding_vectorstore(split_docs, embeddings, args)
+    dir_path = indexing_embedding_vectorstore(split_docs, embeddings)
     logging.info(f"Completed vector store with embeddings.")
 
     with open(dir_path + "/process_docs_config.json", "w") as file:
