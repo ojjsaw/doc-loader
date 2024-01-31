@@ -54,9 +54,8 @@ def main():
     ############ TODO: Experiment Other embeddings
     embeddings = HuggingFaceEmbeddings(
         model_name = embeddings_model,
-        model_kwargs = {'device':'cpu'},
-        encode_kwargs = {'normalize_embeddings': True},
-        trust_remote_code=True
+        model_kwargs = {'device':'cpu', 'trust_remote_code':True},
+        encode_kwargs = {'normalize_embeddings': True}
     )
     vector_store = Chroma(persist_directory=args.storedir, embedding_function=embeddings)
     retriever = vector_store.as_retriever()
