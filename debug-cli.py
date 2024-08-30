@@ -18,7 +18,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 from chromadb.config import Settings
 
-os.environ['HF_TOKEN'] = "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"
+os.environ['HF_TOKEN'] = ""
 
 
 template = """Use the following pieces of context to answer the question at the end.
